@@ -4,11 +4,7 @@ import "go-chat/app/views/components"
 
 templ App() {
 	@BaseLayout() {
-		<div class="max-w-7xl mx-auto pb-[80px]">
-			<div class="flex flex-row">
-				@components.Sidebar()
-				{ children... }
-			</div>
-		</div>
+		@components.Sidebar()
+		{ children... }
 	}
 }
