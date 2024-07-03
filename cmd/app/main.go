@@ -2,11 +2,13 @@ package main
 
 import (
 	"go-chat/app"
+	"go-chat/app/assets"
+	"go-chat/app/db"
+	"go-chat/app/types"
 	"log"
 	"net/http"
 	"os"
 
-	"go-chat/app/assets"
 	"github.com/go-chi/chi"
 	"github.com/joho/godotenv"
 )
@@ -33,11 +35,11 @@ func serveStaticFiles(router *chi.Mux) {
 }
 
 func staticDev(directory string) http.Handler {
-	return http.StripPrefix("/" + directory + "/", http.FileServerFS(os.DirFS(directory)))
+	return http.StripPrefix("/"+directory+"/", http.FileServerFS(os.DirFS(directory)))
 }
 
 func staticProd(directory string) http.Handler {
-	return http.StripPrefix("/" + directory + "/", http.FileServerFS(assets.AssetsFS))
+	return http.StripPrefix("/"+directory+"/", http.FileServerFS(assets.AssetsFS))
 }
 
 func isDevelopment() bool {
@@ -55,3 +57,6 @@ func disableCache(next http.Handler) http.Handler {
 	})
 }
 
+func Migrate() {
+	db.Get().AutoMigrate(&types.User{}, &types.Message{})
+}
