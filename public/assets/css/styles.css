@@ -447,38 +447,57 @@ video {
 }
 
 * {
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--border) / var(--tw-border-opacity));
+  border-color: hsl(var(--border));
 }
 
 body {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--background) / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: hsl(var(--foreground) / var(--tw-text-opacity));
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+:root {
+  --background: 336 100% 95%;
+  --foreground: 336 5% 0%;
+  --card: 336 50% 90%;
+  --card-foreground: 336 5% 10%;
+  --popover: 336 100% 95%;
+  --popover-foreground: 336 100% 0%;
+  --primary: 336 95.4% 17.1%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 336 30% 70%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 298 30% 85%;
+  --muted-foreground: 336 5% 35%;
+  --accent: 298 30% 80%;
+  --accent-foreground: 336 5% 10%;
+  --destructive: 0 100% 30%;
+  --destructive-foreground: 336 5% 90%;
+  --border: 336 30% 50%;
+  --input: 336 30% 18%;
+  --ring: 336 95.4% 17.1%;
+  --radius: 0.5rem;
 }
 
 .dark {
-  --gradient: #a90f4d;
-  --background: -26 54.6% 2.88%;
-  --foreground: -26 8.4% 96.8%;
-  --muted: -26 42% 10.799999999999999%;
-  --muted-foreground: -26 8.4% 53.6%;
-  --popover: -26 48.2% 4.68%;
-  --popover-foreground: -26 8.4% 96.8%;
-  --card: -26 48.2% 4.68%;
-  --card-foreground: -26 8.4% 96.8%;
-  --border: -26 42% 10.799999999999999%;
-  --input: -26 42% 10.799999999999999%;
-  --primary: -26 84% 36%;
-  --primary-foreground: -26 8.4% 96.8%;
-  --secondary: -26 42% 10.799999999999999%;
-  --secondary-foreground: -26 8.4% 96.8%;
-  --accent: -26 42% 10.799999999999999%;
-  --accent-foreground: -26 8.4% 96.8%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: -26 8.4% 96.8%;
-  --ring: -26 84% 36%;
+  --background: 336 50% 5%;
+  --foreground: 336 5% 90%;
+  --card: 336 50% 0%;
+  --card-foreground: 336 5% 90%;
+  --popover: 336 50% 5%;
+  --popover-foreground: 336 5% 90%;
+  --primary: 336 95.4% 17.1%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 336 30% 10%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 298 30% 15%;
+  --muted-foreground: 336 5% 60%;
+  --accent: 298 30% 15%;
+  --accent-foreground: 336 5% 90%;
+  --destructive: 0 100% 30%;
+  --destructive-foreground: 336 5% 90%;
+  --border: 336 30% 18%;
+  --input: 336 30% 18%;
+  --ring: 336 95.4% 17.1%;
   --radius: 0.5rem;
 }
 
@@ -602,6 +621,19 @@ body {
   top: 0px;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .ml-\[33\.33\%\] {
   margin-left: 33.33%;
 }
@@ -610,8 +642,16 @@ body {
   display: flex;
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
 .grid {
   display: grid;
+}
+
+.h-11 {
+  height: 2.75rem;
 }
 
 .h-20 {
@@ -642,6 +682,10 @@ body {
   width: 75%;
 }
 
+.w-40 {
+  width: 10rem;
+}
+
 .w-full {
   width: 100%;
 }
@@ -660,6 +704,10 @@ body {
 
 .items-center {
   align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .justify-between {
@@ -682,6 +730,14 @@ body {
   border-radius: var(--radius);
 }
 
+.rounded-md {
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.border {
+  border-width: 1px;
+}
+
 .border-\[2px\] {
   border-width: 2px;
 }
@@ -698,29 +754,16 @@ body {
   border-style: none;
 }
 
-.border-ruby-800 {
-  --tw-border-opacity: 1;
-  border-color: rgb(169 15 77 / var(--tw-border-opacity));
+.border-input {
+  border-color: hsl(var(--input));
 }
 
-.border-ruby-950 {
-  --tw-border-opacity: 1;
-  border-color: rgb(85 2 35 / var(--tw-border-opacity));
+.bg-card {
+  background-color: hsl(var(--card));
 }
 
-.bg-night-900 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 61 71 / var(--tw-bg-opacity));
-}
-
-.bg-night-950 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(17 20 24 / var(--tw-bg-opacity));
-}
-
-.bg-smoke-950 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(12 15 17 / var(--tw-bg-opacity));
+.bg-primary {
+  background-color: hsl(var(--primary));
 }
 
 .bg-transparent {
@@ -730,6 +773,14 @@ body {
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.p-12 {
+  padding: 3rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .px-12 {
@@ -745,6 +796,16 @@ body {
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .py-4 {
@@ -774,9 +835,43 @@ body {
   font-weight: 500;
 }
 
-.text-ruby-800 {
-  --tw-text-opacity: 1;
-  color: rgb(169 15 77 / var(--tw-text-opacity));
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
+.text-card-foreground {
+  color: hsl(var(--card-foreground));
+}
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-xl {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-primary\/40 {
+  --tw-shadow-color: hsl(var(--primary) / 0.4);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
 }
 
 /* fix for Alpine users. */
@@ -785,7 +880,29 @@ body {
   display: none !important;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: background-color 5000s;
+  transition: background-color 5000s;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.placeholder\:text-muted-foreground::-moz-placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+.placeholder\:text-muted-foreground::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
 .focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-visible\:outline-none:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }

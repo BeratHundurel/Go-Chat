@@ -16,28 +16,57 @@
    }
 
    @layer base {
+      :root {
+         --background: 336 100% 95%;
+         --foreground: 336 5% 0%;
+         --card: 336 50% 90%;
+         --card-foreground: 336 5% 10%;
+         --popover: 336 100% 95%;
+         --popover-foreground: 336 100% 0%;
+         --primary: 336 95.4% 17.1%;
+         --primary-foreground: 0 0% 100%;
+         --secondary: 336 30% 70%;
+         --secondary-foreground: 0 0% 0%;
+         --muted: 298 30% 85%;
+         --muted-foreground: 336 5% 35%;
+         --accent: 298 30% 80%;
+         --accent-foreground: 336 5% 10%;
+         --destructive: 0 100% 30%;
+         --destructive-foreground: 336 5% 90%;
+         --border: 336 30% 50%;
+         --input: 336 30% 18%;
+         --ring: 336 95.4% 17.1%;
+         --radius: 0.5rem;
+      }
       .dark {
-         --gradient: #a90f4d;
-         --background: -26 54.6% 2.88%;
-         --foreground: -26 8.4% 96.8%;
-         --muted: -26 42% 10.799999999999999%;
-         --muted-foreground: -26 8.4% 53.6%;
-         --popover: -26 48.2% 4.68%;
-         --popover-foreground: -26 8.4% 96.8%;
-         --card: -26 48.2% 4.68%;
-         --card-foreground: -26 8.4% 96.8%;
-         --border: -26 42% 10.799999999999999%;
-         --input: -26 42% 10.799999999999999%;
-         --primary: -26 84% 36%;
-         --primary-foreground: -26 8.4% 96.8%;
-         --secondary: -26 42% 10.799999999999999%;
-         --secondary-foreground: -26 8.4% 96.8%;
-         --accent: -26 42% 10.799999999999999%;
-         --accent-foreground: -26 8.4% 96.8%;
-         --destructive: 0 62.8% 30.6%;
-         --destructive-foreground: -26 8.4% 96.8%;
-         --ring: -26 84% 36%;
+         --background: 336 50% 5%;
+         --foreground: 336 5% 90%;
+         --card: 336 50% 0%;
+         --card-foreground: 336 5% 90%;
+         --popover: 336 50% 5%;
+         --popover-foreground: 336 5% 90%;
+         --primary: 336 95.4% 17.1%;
+         --primary-foreground: 0 0% 100%;
+         --secondary: 336 30% 10%;
+         --secondary-foreground: 0 0% 100%;
+         --muted: 298 30% 15%;
+         --muted-foreground: 336 5% 60%;
+         --accent: 298 30% 15%;
+         --accent-foreground: 336 5% 90%;
+         --destructive: 0 100% 30%;
+         --destructive-foreground: 336 5% 90%;
+         --border: 336 30% 18%;
+         --input: 336 30% 18%;
+         --ring: 336 95.4% 17.1%;
          --radius: 0.5rem;
       }
    }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+   transition: background-color 5000s;
+   -webkit-text-fill-color: #fff !important;
 }
