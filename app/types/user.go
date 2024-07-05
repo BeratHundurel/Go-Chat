@@ -1,8 +1,8 @@
 package types
 
 type User struct {
-    ID       uint    `gorm:"primaryKey"`
-    UserName string `gorm:"column:user_name"`
-    Phone    string `gorm:"column:phone"`
-    PassWord string `gorm:"column:pass_word"`
+	ID       uint   `gorm:"primaryKey"`
+	Username string `gorm:"column:username"`
+	Phone    string `gorm:"column:phone"`
+	Password string `gorm:"column:password"`
 }
