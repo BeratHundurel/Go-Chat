@@ -58,5 +58,10 @@ func disableCache(next http.Handler) http.Handler {
 }
 
 func Migrate() {
-	db.Get().AutoMigrate(&types.User{}, &types.Message{})
+	err := db.Get().AutoMigrate(&types.User{}, &types.Message{})
+	if err != nil {
+		log.Fatalf("Migration failed: %v", err)
+	} else {
+		log.Println("Migration successful")
+	}
 }
