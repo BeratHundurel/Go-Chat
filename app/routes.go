@@ -15,8 +15,10 @@ func InitializeMiddleware(router *chi.Mux) {
 
 func InitializeRoutes(router *chi.Mux) {
 	router.Group(func(app chi.Router) {
-		app.Get("/", handlers.HandleAuthIndex)
-		app.With(middleware.AuthMiddleware).Get("/chat", handlers.HandleLandingIndex)
-		app.Post("/register", handlers.HandleAuthRegister)
+		app.With(middleware.AuthMiddleware).Get("/", handlers.HandleLandingIndex)
+		app.Get("/login", handlers.HandleLoginGET)
+		app.Post("/login", handlers.HandleLoginPOST)
+		app.Get("/register", handlers.HandleAuthRegisterGET)
+		app.Post("/register", handlers.HandleAuthRegisterPOST)
 	})
 }

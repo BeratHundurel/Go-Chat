@@ -1,23 +1,57 @@
 package handlers
 
 import (
+	"github.com/go-playground/validator/v10"
+	"github.com/gorilla/schema"
 	"go-chat/app/services"
-	"go-chat/app/types"
 	"go-chat/app/views/auth"
 	"net/http"
 	"time"
-
-	"github.com/go-playground/validator/v10"
-	"github.com/gorilla/schema"
 )
 
 var decoder = schema.NewDecoder()
+var validate = validator.New()
 
-func HandleAuthIndex(w http.ResponseWriter, r *http.Request) {
-	auth.Index(auth.RegisterFormValues{}).Render(r.Context(), w)
+func HandleLoginGET(w http.ResponseWriter, r *http.Request) {
+	auth.Index().Render(r.Context(), w)
 }
 
-func HandleAuthRegister(w http.ResponseWriter, r *http.Request) {
+func HandleLoginPOST(w http.ResponseWriter, r *http.Request) {
+	var form auth.LoginFormValues
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if err := decoder.Decode(&form, r.PostForm); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := validate.Struct(form); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	user := services.FindUserByUsername(form.Username)
+	if user == nil || user.Password != form.Password {
+		http.Error(w, "Invalid username or password", http.StatusBadRequest)
+		return
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "authentication",
+		Value:    form.Username,
+		Expires:  time.Now().Add(128 * time.Hour),
+		HttpOnly: true,
+	})
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+func HandleAuthRegisterGET(w http.ResponseWriter, r *http.Request) {
+	auth.Register(auth.RegisterFormValues{}).Render(r.Context(), w)
+}
+
+func HandleAuthRegisterPOST(w http.ResponseWriter, r *http.Request) {
 	var form auth.RegisterFormValues
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -28,7 +62,6 @@ func HandleAuthRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	validate := validator.New()
 	if err := validate.Struct(form); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -39,19 +72,14 @@ func HandleAuthRegister(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Username is already taken", http.StatusBadRequest)
 		return
 	}
-	
-	user := types.User{
-		Username: form.Username,
-		Phone:    form.Phone,
-		Password: form.Password,
-	}
-	services.RegisterUser(user)
 
-	http.SetCookie(w,&http.Cookie{
-		Name: "authentication",
-		Value: user.Username,
-		Expires: time.Now().Add(128 * time.Hour),
+	services.RegisterUser(form)
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "authentication",
+		Value:    form.Username,
+		Expires:  time.Now().Add(128 * time.Hour),
 		HttpOnly: true,
 	})
-	http.Redirect(w, r, "/chat", http.StatusFound)
+	http.Redirect(w, r, "/", http.StatusFound)
 }

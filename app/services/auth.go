@@ -3,6 +3,7 @@ package services
 import (
 	"go-chat/app/db"
 	"go-chat/app/types"
+	"go-chat/app/views/auth"
 )
 
 func CheckUsername(username string) bool {
@@ -11,6 +12,18 @@ func CheckUsername(username string) bool {
 	return result.Error == nil
 }
 
-func RegisterUser(user types.User) {
+func RegisterUser(form auth.RegisterFormValues) {
+	user := types.User{
+		Username: form.Username,
+		Phone:    form.Phone,
+		Password: form.Password,
+	}
+
 	db.Get().Create(&user)
+}
+
+func FindUserByUsername(username string) *types.User {
+	var user types.User
+	db.Get().Where("username = ?", username).First(&user)
+	return &user
 }
