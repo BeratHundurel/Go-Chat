@@ -8,3 +8,4 @@ app_db
 *.txt
 txt
 *.vscode
+/public/
