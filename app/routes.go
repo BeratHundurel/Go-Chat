@@ -20,5 +20,6 @@ func InitializeRoutes(router *chi.Mux) {
 		app.Post("/login", handlers.HandleLoginPOST)
 		app.Get("/register", handlers.HandleAuthRegisterGET)
 		app.Post("/register", handlers.HandleAuthRegisterPOST)
+		app.Post("/add-friends", handlers.HandleAddFriendToUser)
 	})
 }

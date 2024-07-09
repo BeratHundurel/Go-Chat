@@ -40,7 +40,7 @@ func HandleLoginPOST(w http.ResponseWriter, r *http.Request) {
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     "authentication",
-		Value:    form.Username,
+		Value:    user.Phone,
 		Expires:  time.Now().Add(128 * time.Hour),
 		HttpOnly: true,
 	})
@@ -48,7 +48,7 @@ func HandleLoginPOST(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleAuthRegisterGET(w http.ResponseWriter, r *http.Request) {
-	auth.Register(auth.RegisterFormValues{}).Render(r.Context(), w)
+	auth.Register().Render(r.Context(), w)
 }
 
 func HandleAuthRegisterPOST(w http.ResponseWriter, r *http.Request) {
@@ -77,7 +77,7 @@ func HandleAuthRegisterPOST(w http.ResponseWriter, r *http.Request) {
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     "authentication",
-		Value:    form.Username,
+		Value:    form.Phone,
 		Expires:  time.Now().Add(128 * time.Hour),
 		HttpOnly: true,
 	})

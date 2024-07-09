@@ -6,5 +6,6 @@ import (
 )
 
 func HandleLandingIndex(w http.ResponseWriter, r *http.Request) {
-	landing.Index().Render(r.Context(), w)
+	availabe_users := FetchAvailableUsers(w, r)
+	landing.Index(availabe_users).Render(r.Context(), w)
 }
