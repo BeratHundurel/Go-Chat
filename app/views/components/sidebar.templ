@@ -5,6 +5,10 @@ import (
 	"strconv"
 )
 
+func returnIdAsJson(id uint) string {
+	return `{"id":` + strconv.FormatUint(uint64(id), 10) + `}`
+}
+
 templ Sidebar(available_Users []types.User) {
 	<header
 		x-data="{ open: false }"
@@ -69,31 +73,38 @@ templ FriendsCanvas(available_users []types.User) {
 			<p class="text-lg font-semibold text-accent-foreground">Search For Friends</p>
 		</div>
 		@Search()
-		<div class="flex flex-col gap-3 mt-3 rounded-lg">
-			for _,users := range available_users {
-				<div class="flex flex-row justify-between items-center mx-3 px-3 py-3 bg-background">
-					<img
-						src="/app/assets/img/profile.jpg"
-						alt="profile-img"
-						class="rounded-full border-[2px] border-primary object-cover w-12"
-					/>
-					<div class="flex items-center gap-2">
-						<div class="flex flex-col ml-3 w-32">
-							<p class="text-lg font-base text-primary-foreground">{ users.Username }</p>
-							<p class="text-sm text-muted-foreground">{ users.Phone }</p>
-						</div>
-						<div
-							class="w-9 h-9 rounded-lg bg-accent text-accent-foreground flex items-center justify-center"
-							role="button"
-							data-id={ strconv.FormatUint(uint64(users.ID), 10) }
-							hx-post="/add-friend"
-							hx-vals='{"id": "{ users.ID }"}'
-						>
-							<i class="fa-solid fa-user-plus"></i>
-						</div>
+		@FriendList(available_users)
+	</div>
+}
+
+templ FriendList(available_users []types.User) {
+	<div class="flex flex-col gap-3 mt-3 rounded-lg" id="friends-list">
+		for _,users := range available_users {
+			<div
+				class="flex flex-row justify-between items-center mx-3 px-3 py-3 bg-background transition-opacity duration-1000 ease-in-out opacity-0 animate-fade-in"
+			>
+				<img
+					src="/app/assets/img/profile.jpg"
+					alt="profile-img"
+					class="rounded-full border-[2px] border-primary object-cover w-12"
+				/>
+				<div class="flex items-center gap-2">
+					<div class="flex flex-col ml-3 w-32">
+						<p class="text-lg font-base text-primary-foreground">{ users.Username }</p>
+						<p class="text-sm text-muted-foreground">{ users.Phone }</p>
+					</div>
+					<div
+						class="w-9 h-9 rounded-lg bg-accent text-accent-foreground flex items-center justify-center"
+						role="button"
+						data-id={ strconv.FormatUint(uint64(users.ID), 10) }
+						hx-post="/add-friends"
+						hx-vals={ returnIdAsJson(users.ID) }
+						hx-target="#friends-list"
+					>
+						<i class="fa-solid fa-user-plus"></i>
 					</div>
 				</div>
-			}
-		</div>
+			</div>
+		}
 	</div>
 }

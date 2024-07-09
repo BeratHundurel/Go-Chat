@@ -13,9 +13,22 @@ func getById(id int) types.User {
 }
 
 func GetAvailableUsers(phone string) []types.User {
-	var users []types.User
-	db.Get().Where("phone != ?", phone).Find(&users)
-	return users
+	var available_users []types.User
+	var user types.User
+	var friends []types.User
+	var excluded_ids []int
+
+	db.Get().First(&user, "phone = ?", phone)
+	excluded_ids = append(excluded_ids, int(user.ID))
+	
+	db.Get().Model(&user).Association("Friends").Find(&friends)
+
+	for _, friend := range friends {
+		excluded_ids = append(excluded_ids, int(friend.ID))
+	}
+
+	db.Get().Where("id NOT IN (?)", excluded_ids).Find(&available_users)
+	return available_users
 }
 
 func GetUserByPhone(phone string) types.User {
@@ -30,7 +43,6 @@ func AddFriend(user types.User, friendId string) error {
 		return err
 	}
 	friend := getById(friendID)
-
-	db.Get().Model(&user).Association("Friends").Append(friend)
+	db.Get().Model(&user).Association("Friends").Append(&friend)
 	return nil
 }

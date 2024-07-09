@@ -69,7 +69,7 @@ module.exports = {
             },
             animation: {
                 marquee: "marquee var(--marquee-duration) linear infinite",
-                "fade-in": "fade-in 0.5s linear forwards",
+                "fade-in": "fade-in 1s ease-in-out forwards",
             },
             fontFamily: {
                 sans: [...fontFamily.sans]

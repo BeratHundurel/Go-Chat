@@ -3,6 +3,7 @@ package handlers
 import (
 	"go-chat/app/services"
 	"go-chat/app/types"
+	"go-chat/app/views/components"
 	"net/http"
 )
 
@@ -32,4 +33,7 @@ func HandleAddFriendToUser(w http.ResponseWriter, r *http.Request) {
 	}
 	friendId := r.FormValue("id")
 	services.AddFriend(user, friendId)
+
+	available_users := services.GetAvailableUsers(phone)
+	components.FriendList(available_users).Render(r.Context(), w)
 }
