@@ -3,11 +3,12 @@ package landing
 import (
 	"go-chat/app/views/components"
 	"go-chat/app/views/layouts"
+	"go-chat/app/types"
 )
 
-templ Index() {
+templ Index(available_Users []types.User) {
 	@layouts.App() {
-		@components.Sidebar()
+		@components.Sidebar(available_Users)
 		<div class="flex flex-col h-svh fixed w-2/3 pt-12 pr-16 bg-secondary ml-[33.33%]">
 			@ChatBox()
 		</div>

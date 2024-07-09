@@ -8,10 +8,10 @@ type RegisterFormValues struct {
 	Password string `form:"password" schema:"password" validate:"required,min=6,max=50"`
 }
 
-templ Register(values RegisterFormValues) {
+templ Register() {
 	@layouts.App() {
 		<div class="flex flex-col h-svh items-center justify-center">
-			@RegisterForm(values)
+			@RegisterForm(RegisterFormValues{})
 		</div>
 	}
 }
