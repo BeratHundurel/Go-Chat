@@ -70,3 +70,16 @@ input:-webkit-autofill:active {
    transition: background-color 5000s;
    -webkit-text-fill-color: #fff !important;
 }
+
+/* Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+   width: 12px;
+}
+
+::-webkit-scrollbar-track {
+   background: hsl(336 50% 5%);
+}
+
+::-webkit-scrollbar-thumb {
+   background: hsl(336 95.4% 17.1%);
+}

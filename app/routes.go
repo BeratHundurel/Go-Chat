@@ -1,10 +1,12 @@
 package app
 
 import (
+	"go-chat/app/handlers"
+	"go-chat/app/hub"
+	"go-chat/app/middleware"
+
 	"github.com/go-chi/chi"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
-	"go-chat/app/handlers"
-	"go-chat/app/middleware"
 )
 
 // Define your global middleware
@@ -17,8 +19,9 @@ func InitializeRoutes(router *chi.Mux) {
 	router.Group(func(app chi.Router) {
 		app.With(middleware.AuthMiddleware).Get("/", handlers.HandleLandingIndex)
 		app.Get("/login", handlers.HandleLoginGET)
-		app.Post("/login", handlers.HandleLoginPOST)
 		app.Get("/register", handlers.HandleAuthRegisterGET)
+		app.Get("/ws", hub.HandleWebSocket)
+		app.Post("/login", handlers.HandleLoginPOST)
 		app.Post("/register", handlers.HandleAuthRegisterPOST)
 		app.Post("/add-friends", handlers.HandleAddFriendToUser)
 	})

@@ -2,21 +2,9 @@ package handlers
 
 import (
 	"go-chat/app/services"
-	"go-chat/app/types"
 	"go-chat/app/views/components"
 	"net/http"
 )
-
-func FetchAvailableUsers(w http.ResponseWriter, r *http.Request) []types.User {
-	cookie, err := r.Cookie("authentication")
-	if err != nil {
-		http.Redirect(w, r, "/login", http.StatusFound)
-		return nil
-	}
-	phone := cookie.Value
-	users := services.GetAvailableUsers(phone)
-	return users
-}
 
 func HandleAddFriendToUser(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("authentication")
@@ -34,6 +22,6 @@ func HandleAddFriendToUser(w http.ResponseWriter, r *http.Request) {
 	friendId := r.FormValue("id")
 	services.AddFriend(user, friendId)
 
-	available_users := services.GetAvailableUsers(phone)
+	available_users := services.GetAvailableUsers(user)
 	components.FriendList(available_users).Render(r.Context(), w)
 }

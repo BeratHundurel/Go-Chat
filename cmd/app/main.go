@@ -1,17 +1,18 @@
 package main
 
 import (
+	"github.com/go-chi/chi"
+	"github.com/joho/godotenv"
 	"go-chat/app"
 	"go-chat/app/assets"
 	"go-chat/app/db"
+	"go-chat/app/hub"
 	"go-chat/app/types"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/go-chi/chi"
-	"github.com/joho/godotenv"
 )
+
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -21,6 +22,8 @@ func main() {
 	serveStaticFiles(router)
 	app.InitializeRoutes(router)
 	listenAddr := os.Getenv("HTTP_LISTEN_ADDR")
+	hub := hub.ReturnHub()
+	go hub.Run()
 	http.ListenAndServe(listenAddr, router)
 }
 
