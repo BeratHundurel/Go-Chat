@@ -2,12 +2,29 @@ let socket;
 
 function init() {
     socket = new WebSocket("ws://localhost:3000/ws");
-    console.log("Socket connection", socket);
     socket.onmessage = function (event) {
-        console.log("Inside event", event);
+        const messageData = JSON.parse(event.data);
         const messageList = document.getElementById("messages");
         const messageItem = document.createElement("li");
-        messageItem.textContent = event.data;
+        const messageContent = document.createElement("p");
+
+        // Set the text content of the message
+        messageContent.textContent = messageData.content;
+
+        // Set the common classes for the message content
+        messageContent.className = "bg-background px-3 py-3 text-end max-w-max rounded-lg text-sm";
+
+        // Check if the message is from the sender or receiver
+        if (messageData.senderId == document.getElementById("senderIdInput").value) {
+            messageItem.className = "flex items-center justify-end w-full px-4";
+        } else {
+            messageItem.className = "flex items-center justify-start w-full px-4";
+        }
+
+        // Append the message content to the list item
+        messageItem.appendChild(messageContent);
+
+        // Append the list item to the message list
         messageList.appendChild(messageItem);
     };
 
@@ -15,8 +32,14 @@ function init() {
     form.onsubmit = function (event) {
         event.preventDefault();
         const input = document.getElementById("messageInput");
-        socket.send(input.value);
-        console.log("Message sent", input.value);
+        const senderId = document.getElementById("senderId");
+        const message = {
+            content: input.value,
+            senderId: parseInt(senderId.value),
+            receiverId: 2,
+            createdAt: new Date().toISOString()
+        }
+        socket.send(JSON.stringify(message));
         input.value = '';
     };
 }

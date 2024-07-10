@@ -2,8 +2,8 @@ package services
 
 import (
 	"go-chat/app/db"
+	"go-chat/app/helpers"
 	"go-chat/app/types"
-	"strconv"
 )
 
 func getById(id int) types.User {
@@ -35,7 +35,7 @@ func GetUserByPhone(phone string) types.User {
 }
 
 func AddFriend(user types.User, friendId string) error {
-	friendID, err := strconv.Atoi(friendId)
+	friendID, err := helpers.ReturnIdAsIntFromString(friendId)
 	if err != nil {
 		return err
 	}

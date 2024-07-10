@@ -21,6 +21,7 @@ func InitializeRoutes(router *chi.Mux) {
 		app.Get("/login", handlers.HandleLoginGET)
 		app.Get("/register", handlers.HandleAuthRegisterGET)
 		app.Get("/ws", hub.HandleWebSocket)
+		app.Post("/chat", handlers.HandleChat)
 		app.Post("/login", handlers.HandleLoginPOST)
 		app.Post("/register", handlers.HandleAuthRegisterPOST)
 		app.Post("/add-friends", handlers.HandleAddFriendToUser)

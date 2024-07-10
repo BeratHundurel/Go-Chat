@@ -1,6 +1,7 @@
 package landing
 
 import (
+	"go-chat/app/helpers"
 	"go-chat/app/types"
 	"go-chat/app/views/components"
 	"go-chat/app/views/layouts"
@@ -10,21 +11,43 @@ templ Index(userView types.UserView) {
 	@layouts.App() {
 		@components.Sidebar(userView)
 		<div class="flex flex-col h-svh fixed w-2/3 pt-12 pr-16 bg-secondary ml-[33.33%]">
-			@Messages()
-			@ChatBox()
+			@MessageBox(types.MessageView{})
+			@ChatBox(userView.CurrentUser)
 		</div>
 	}
 }
 
-templ Messages() {
-	<div class="flex flex-col items-start justify-between">
-		<ul id="messages"></ul>
+templ MessageBox(chat types.MessageView) {
+	<div class="flex flex-col items-start justify-between animate-fade-in" id="chat">
+		@Messages(chat)
 	</div>
 }
 
-templ ChatBox() {
-	<div class="absolute bottom-0 w-full bg-background p-4">
+templ Messages(chat types.MessageView) {
+	<input type="hidden" value={ helpers.ReturnIdAsStringFromUint(chat.Sender.ID) } id="senderIdInput"/>
+	<ul id="messages" class="flex flex-col w-full absolute gap-1 bottom-24">
+		for _, message := range chat.Messages {
+			if message.SenderId == helpers.ReturnIdAsIntFromUint(chat.Sender.ID) {
+				<li class="flex items-center justify-end w-full px-4">
+					<p class="bg-background px-3 py-3 text-end max-w-max rounded-lg text-sm">
+						{ message.Content }
+					</p>
+				</li>
+			} else {
+				<li class="flex items-center justify-start w-full px-4">
+					<p class="bg-background px-3 py-3 text-end max-w-max text-sm">
+						{ message.Content }
+					</p>
+				</li>
+			}
+		}
+	</ul>
+}
+
+templ ChatBox(user types.User) {
+	<div class="absolute bottom-0 w-full bg-background p-4 h-20">
 		<form class="flex items-center gap-3" id="chatForm">
+			<input type="hidden" id="senderId" value={ helpers.ReturnIdAsStringFromUint(user.ID) }/>
 			<input
 				id="messageInput"
 				type="text"

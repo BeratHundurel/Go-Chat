@@ -1,6 +1,9 @@
 package hub
 
 import (
+	"encoding/json"
+	"go-chat/app/services"
+	"go-chat/app/types"
 	"log"
 	"net/http"
 
@@ -74,6 +77,15 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 			log.Println("Read error:", err)
 			break
 		}
+
+		var initMsg types.Message
+		if err := json.Unmarshal(msg, &initMsg); err != nil {
+			log.Println("Failed to marshal message:", err)
+			return
+		}
+
+		services.SaveMessage(initMsg)
+
 		chatHub.Broadcast <- msg
 	}
 }

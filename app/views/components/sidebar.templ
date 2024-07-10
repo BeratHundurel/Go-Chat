@@ -1,13 +1,9 @@
 package components
 
 import (
+	"go-chat/app/helpers"
 	"go-chat/app/types"
-	"strconv"
 )
-
-func returnIdAsJson(id uint) string {
-	return `{"id":` + strconv.FormatUint(uint64(id), 10) + `}`
-}
 
 templ Sidebar(viewUsers types.UserView) {
 	<header
@@ -59,7 +55,15 @@ templ Search() {
 templ Chats(chatViews []types.ChatView) {
 	<div class="flex flex-col gap-3 items-start ml-3 overflow-y-scroll h-full">
 		for _,chatView := range chatViews {
-			<div class="flex flex-row items-center gap-6 px-12 py-4 w-full border-b border-primary">
+			<div
+				class="flex flex-row items-center gap-6 px-12 py-4 w-full border-b border-primary"
+				hx-post="chat"
+				hx-trigger="click"
+				hx-vals={ helpers.ReturnIdAsJsonFromUint(chatView.User.ID) }
+				hx-swap="innerHTML"
+				hx-target="#chat"
+				role="button"
+			>
 				<div class="rounded-full bg-secondary w-12 h-12 flex items-center justify-center">
 					<i class="fa-regular fa-user text-secondary-foreground text-xl"></i>
 				</div>
@@ -117,9 +121,9 @@ templ FriendList(available_users []types.User) {
 					<div
 						class="w-9 h-9 rounded-lg bg-accent text-accent-foreground flex items-center justify-center"
 						role="button"
-						data-id={ strconv.FormatUint(uint64(users.ID), 10) }
+						data-id={ helpers.ReturnIdAsStringFromUint(users.ID) }
 						hx-post="/add-friends"
-						hx-vals={ returnIdAsJson(users.ID) }
+						hx-vals={ helpers.ReturnIdAsJsonFromUint(users.ID) }
 						hx-target="#friends-list"
 					>
 						<i class="fa-solid fa-user-plus"></i>
