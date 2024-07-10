@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"go-chat/app/helpers"
 	"go-chat/app/services"
 	"go-chat/app/types"
 	"go-chat/app/views/landing"
@@ -14,7 +15,13 @@ func HandleChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	friendId := r.FormValue("id")
-	chat, err := services.GetMessagesByFriendId(friendId)
+	friendID, err := helpers.ReturnIdAsIntFromString(friendId)
+	if err != nil{
+		http.Error(w, "Failed to parse friend id", http.StatusInternalServerError)
+		return
+	}
+
+	chat, err := services.GetMessagesByFriendId(friendID)
 	if err != nil {
 		http.Error(w, "Failed to get chat", http.StatusInternalServerError)
 		return
@@ -27,10 +34,12 @@ func HandleChat(w http.ResponseWriter, r *http.Request) {
 	}
 	phone := cookie.Value
 	user := services.GetUserByPhone(phone)
+	receiver := services.GetById(friendID)
 
 	view := types.MessageView{
 		Sender:   user,
 		Messages: chat,
+		Receiver: receiver,
 	}
 
 	// Render the chat

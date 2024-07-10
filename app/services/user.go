@@ -6,7 +6,7 @@ import (
 	"go-chat/app/types"
 )
 
-func getById(id int) types.User {
+func GetById(id int) types.User {
 	var user types.User
 	db.Get().First(&user, id)
 	return user
@@ -39,7 +39,7 @@ func AddFriend(user types.User, friendId string) error {
 	if err != nil {
 		return err
 	}
-	friend := getById(friendID)
+	friend := GetById(friendID)
 	db.Get().Model(&user).Association("Friends").Append(&friend)
 	return nil
 }

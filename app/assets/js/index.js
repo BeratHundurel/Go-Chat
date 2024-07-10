@@ -1,5 +1,6 @@
 let socket;
 
+
 function init() {
     socket = new WebSocket("ws://localhost:3000/ws");
     socket.onmessage = function (event) {
@@ -7,17 +8,19 @@ function init() {
         const messageList = document.getElementById("messages");
         const messageItem = document.createElement("li");
         const messageContent = document.createElement("p");
+        const senderId = parseInt(document.getElementById("senderIdInput").value);
 
         // Set the text content of the message
         messageContent.textContent = messageData.content;
 
         // Set the common classes for the message content
-        messageContent.className = "bg-background px-3 py-3 text-end max-w-max rounded-lg text-sm";
-
+        
         // Check if the message is from the sender or receiver
-        if (messageData.senderId == document.getElementById("senderIdInput").value) {
+        if (messageData.senderId == senderId) {
+            messageContent.className = "bg-background px-3 py-3 text-end max-w-max rounded-lg text-sm";
             messageItem.className = "flex items-center justify-end w-full px-4";
         } else {
+            messageContent.className = "bg-accent px-3 py-3 text-end max-w-max rounded-lg text-sm";
             messageItem.className = "flex items-center justify-start w-full px-4";
         }
 
@@ -31,12 +34,13 @@ function init() {
     const form = document.getElementById("chatForm");
     form.onsubmit = function (event) {
         event.preventDefault();
+        const senderId = parseInt(document.getElementById("senderIdInput").value);
+        const receiverId = parseInt(document.getElementById("receiverIdInput").value);
         const input = document.getElementById("messageInput");
-        const senderId = document.getElementById("senderId");
         const message = {
             content: input.value,
-            senderId: parseInt(senderId.value),
-            receiverId: 2,
+            senderId: senderId,
+            receiverId: receiverId,
             createdAt: new Date().toISOString()
         }
         socket.send(JSON.stringify(message));

@@ -2,7 +2,6 @@ package services
 
 import (
 	"go-chat/app/db"
-	"go-chat/app/helpers"
 	"go-chat/app/types"
 )
 
@@ -11,15 +10,8 @@ func SaveMessage(message types.Message) {
 	db.Get().Create(&message)
 }
 
-func GetMessagesByFriendId(friendId string) ([]types.Message, error) {
-	// Get messages from database
+func GetMessagesByFriendId(friendID int) ([]types.Message, error) {
 	var messages []types.Message
-
-	friendID, err := helpers.ReturnIdAsIntFromString(friendId)
-	if err != nil {
-		return nil, err
-	}
-
-	db.Get().Where("sender_id = ? OR receiver_id = ?", friendID, friendID).Order("created_at DESC").Find(&messages)
+	db.Get().Where("sender_id = ? OR receiver_id = ?", friendID, friendID).Order("created_at ASC").Find(&messages)
 	return messages, nil
 }
