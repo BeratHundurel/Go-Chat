@@ -17,16 +17,30 @@ templ Index(userView types.UserView) {
 	}
 }
 
+templ ReceiverBox(receiver types.User) {
+	if receiver.ID != 0 {
+		<div class="absolute top-0 flex items-center bg-background w-full h-16 py-3 px-3">
+			<div class="rounded-full bg-secondary w-12 h-12 flex items-center justify-center">
+				<i class="fa-regular fa-user text-background-foreground text-xl"></i>
+			</div>
+			<div class="flex flex-col ml-4">
+				<p class="text-lg font-semibold">{ receiver.Username }</p>
+			</div>
+		</div>
+	}
+}
+
 templ MessageBox(chat types.MessageView) {
-	<div class="flex flex-col items-start justify-between animate-fade-in" id="chat">
+	<div class="flex flex-col items-start justify-between" id="chat">
 		@Messages(chat)
 	</div>
 }
 
 templ Messages(chat types.MessageView) {
+	@ReceiverBox(chat.Receiver)
 	<input type="hidden" value={ helpers.ReturnIdAsStringFromUint(chat.Sender.ID) } id="senderIdInput"/>
 	<input type="hidden" value={ helpers.ReturnIdAsStringFromUint(chat.Receiver.ID) } id="receiverIdInput"/>
-	<ul id="messages" class="flex flex-col w-full absolute gap-1 bottom-24">
+	<ul id="messages" class="flex flex-col w-full absolute gap-1 bottom-24 animate-fade-in">
 		for _, message := range chat.Messages {
 			if message.SenderId == helpers.ReturnIdAsIntFromUint(chat.Sender.ID) {
 				<li class="flex items-center justify-end w-full px-4">

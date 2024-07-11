@@ -9,7 +9,6 @@ function init() {
         const messageItem = document.createElement("li");
         const messageContent = document.createElement("p");
         const senderId = parseInt(document.getElementById("senderIdInput").value);
-
         // Set the text content of the message
         messageContent.textContent = messageData.content;
 
